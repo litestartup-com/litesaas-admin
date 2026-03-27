@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Lite SaaS Admin - A modern, full-featured SaaS admin dashboard with user management, billing, AI chat, analytics, i18n, and dark mode. Built with Next.js 14.">
+    <meta name="keywords"
+        content="SaaS admin, admin dashboard, Next.js, user management, billing, AI chat, analytics, i18n, dark mode, Tailwind CSS">
+    <meta name="author" content="Lite SaaS">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:site_name" content="Lite SaaS Admin | Modern SaaS Dashboard" />
+    <meta property="og:title" content="Lite SaaS Admin | Modern SaaS Dashboard" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description"
+        content="A modern, full-featured SaaS admin dashboard with user management, billing, AI chat, analytics, internationalization, and dark mode." />
+    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:url" content="/" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Lite SaaS Admin | Modern SaaS Dashboard">
+    <meta property="twitter:description"
+        content="A modern, full-featured SaaS admin dashboard with user management, billing, AI chat, analytics, internationalization, and dark mode.">
+    <meta property="twitter:image" content="/og-image.jpg">
+    <link rel="icon" type="image/x-icon" sizes="16x16 32x32 48x48" href="/favicon.ico">
+    <title>Lite SaaS Admin - Modern Full-Featured SaaS Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Space Grotesk', sans-serif
+        }
+
+        code,
+        .mono {
+            font-family: 'JetBrains Mono', monospace
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            background: #fff;
+            color: #0a0a0a;
+            overflow-x: hidden
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: all .6s cubic-bezier(.4, 0, .2, 1)
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, .08), transparent)
+        }
+    </style>
+</head>
+
+<body>
+    <header><!-- header placeholder --></header>
+
+    <main>
+        <!-- Hero -->
+        <section class="pt-28 sm:pt-36 pb-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto text-center fade-in">
+                <div
+                    class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-gray-200 text-xs font-medium text-gray-600 mb-8 bg-white">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full" style="animation:pulse 2s infinite"></span>
+                    Built with Next.js 14 &mdash; Production Ready
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tighter mb-6">
+                    The SaaS Admin<br class="hidden sm:block">You Don't Have to Build.</h1>
+                <p class="text-xl sm:text-2xl text-gray-500 max-w-3xl mx-auto mb-10 leading-relaxed">
+                    Dashboard, users, billing, AI chat, notifications, i18n, auth &amp; dark mode &mdash; all wired up and ready to ship.</p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10">
+                    <a href="/login"
+                        class="inline-flex items-center justify-center gap-2 text-white font-semibold text-base rounded-[10px] px-8 py-3.5 transition-all duration-200"
+                        style="background:#0a0a0a"
+                        onmouseover="this.style.background='#1a1a1a';this.style.boxShadow='0 6px 24px rgba(0,0,0,.18)';this.style.transform='translateY(-1px)'"
+                        onmouseout="this.style.background='#0a0a0a';this.style.boxShadow='none';this.style.transform='none'">
+                        Live Demo
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </a>
+                    <a href="https://github.com" target="_blank"
+                        class="inline-flex items-center justify-center gap-2 font-semibold text-sm rounded-lg px-6 py-3 transition-all duration-200"
+                        style="border:1.5px solid rgba(0,0,0,.15);background:#fff;color:#0a0a0a"
+                        onmouseover="this.style.borderColor='#0a0a0a';this.style.background='#fafafa'"
+                        onmouseout="this.style.borderColor='rgba(0,0,0,.15)';this.style.background='#fff'">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                        View on GitHub
+                    </a>
+                </div>
+                <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-gray-400">
+                    <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>TypeScript</span>
+                    <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>Tailwind CSS</span>
+                    <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>Shadcn UI</span>
+                    <span class="hidden sm:flex items-center gap-1.5"><svg class="w-4 h-4" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>Docker Ready</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="pb-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl mx-auto">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 fade-in">
+                    <div class="text-center p-5 rounded-xl border border-gray-100" style="background:rgba(249,250,251,.5)">
+                        <div class="text-2xl sm:text-3xl font-bold mb-1">10+</div>
+                        <div class="text-xs sm:text-sm text-gray-500">Core Features</div>
+                    </div>
+                    <div class="text-center p-5 rounded-xl border border-gray-100" style="background:rgba(249,250,251,.5)">
+                        <div class="text-2xl sm:text-3xl font-bold mb-1">2</div>
+                        <div class="text-xs sm:text-sm text-gray-500">Languages (i18n)</div>
+                    </div>
+                    <div class="text-center p-5 rounded-xl border border-gray-100" style="background:rgba(249,250,251,.5)">
+                        <div class="text-2xl sm:text-3xl font-bold mb-1">4</div>
+                        <div class="text-xs sm:text-sm text-gray-500">AI Providers</div>
+                    </div>
+                    <div class="text-center p-5 rounded-xl border border-gray-100" style="background:rgba(249,250,251,.5)">
+                        <div class="text-2xl sm:text-3xl font-bold mb-1">100%</div>
+                        <div class="text-xs sm:text-sm text-gray-500">TypeScript</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider max-w-5xl mx-auto"></div>
+
+        <!-- Features Grid -->
+        <section id="features" class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-14 fade-in">
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-4">Everything you need, out of the box</h2>
+                    <p class="text-gray-500 text-lg max-w-2xl mx-auto">Stop rebuilding admin panels from scratch. Lite SaaS Admin ships with every feature your SaaS needs on day one.</p>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 fade-in">
+                    <!-- Dashboard -->
+                    <div class="p-6 rounded-[14px] border border-black/[.08] transition-all duration-300"
+                        style="background:#fff"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.18)';this.style.boxShadow='0 8px 30px rgba(0,0,0,.08)';this.style.transform='translateY(-2px)'"
+                        onmouseout="this.style.borderColor='rgba(0,0,0,.08)';this.style.boxShadow='none';this.style.transform='none'">
+                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v-5.5" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Analytics Dashboard</h3>
+                        <p class="text-sm text-gray-500 mb-3">Revenue stats, visitor charts, recent activity feed with real-time data refresh. Multiple time ranges supported.</p>
+                        <p class="text-sm font-semibold text-gray-900">Recharts-powered visualizations</p>
+                    </div>
+                    <!-- User Management -->
+                    <div class="p-6 rounded-[14px] border border-black/[.08] transition-all duration-300"
+                        style="background:#fff"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.18)';this.style.boxShadow='0 8px 30px rgba(0,0,0,.08)';this.style.transform='translateY(-2px)'"
+                        onmouseout="this.style.borderColor='rgba(0,0,0,.08)';this.style.boxShadow='none';this.style.transform='none'">
+                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">User Management</h3>
+                        <p class="text-sm text-gray-500 mb-3">Full user table with search, pagination, column sorting, user details drawer, and ban/unban functionality.</p>
+                        <p class="text-sm font-semibold text-gray-900">Admin-ready CRUD operations</p>
+                    </div>
+                    <!-- Billing -->
+                    <div class="p-6 rounded-[14px] border border-black/[.08] transition-all duration-300"
+                        style="background:#fff"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.18)';this.style.boxShadow='0 8px 30px rgba(0,0,0,.08)';this.style.transform='translateY(-2px)'"
+                        onmouseout="this.style.borderColor='rgba(0,0,0,.08)';this.style.boxShadow='none';this.style.transform='none'">
+                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Billing &amp; Credits</h3>
+                        <p class="text-sm text-gray-500 mb-3">Subscription plans, order history, pricing page with monthly/yearly toggle, and Stripe checkout integration.</p>
+                        <p class="text-sm font-semibold text-gray-900">Stripe-ready payment flow</p>
+                    </div>
+                    <!-- AI Chat -->
+                    <div class="p-6 rounded-[14px] border border-black/[.08] transition-all duration-300"
+                        style="background:#fff"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.18)';this.style.boxShadow='0 8px 30px rgba(0,0,0,.08)';this.style.transform='translateY(-2px)'"
+                        onmouseout="this.style.borderColor='rgba(0,0,0,.08)';this.style.boxShadow='none';this.style.transform='none'">
+                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
+                            </svg>
+                        </div>
+                        <div
+                            class="inline-block px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-black text-white rounded mb-3">
+                            AI-Powered</div>
+                        <h3 class="text-lg font-bold mb-2">AI Chat</h3>
+                        <p class="text-sm text-gray-500 mb-3">Multi-provider chat interface supporting GPT-4o, GPT-4, Claude 3, and Gemini Pro with conversation history.</p>
+                        <p class="text-sm font-semibold text-gray-900">4 AI providers, 1 interface</p>
+                    </div>
+                    <!-- Auth -->
+                    <div class="p-6 rounded-[14px] border border-black/[.08] transition-all duration-300"
+                        style="background:#fff"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.18)';this.style.boxShadow='0 8px 30px rgba(0,0,0,.08)';this.style.transform='translateY(-2px)'"
+                        onmouseout="this.style.borderColor='rgba(0,0,0,.08)';this.style.boxShadow='none';this.style.transform='none'">
+                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Authentication</h3>
+                        <p class="text-sm text-gray-500 mb-3">Token-based auth with 1-hour expiry, auto redirects, route protection, login, signup, and email verification.</p>
+                        <p class="text-sm font-semibold text-gray-900">Complete auth flow included</p>
+                    </div>
+                    <!-- i18n -->
+                    <div class="p-6 rounded-[14px] border border-black/[.08] transition-all duration-300"
+                        style="background:#fff"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.18)';this.style.boxShadow='0 8px 30px rgba(0,0,0,.08)';this.style.transform='translateY(-2px)'"
+                        onmouseout="this.style.borderColor='rgba(0,0,0,.08)';this.style.boxShadow='none';this.style.transform='none'">
+                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Internationalization</h3>
+                        <p class="text-sm text-gray-500 mb-3">Full i18n with English and Chinese. Zustand-powered language store with persistent preference and easy extension.</p>
+                        <p class="text-sm font-semibold text-gray-900">Add any language in minutes</p>
+                    </div>
+                    <!-- Notifications -->
+                    <div class="p-6 rounded-[14px] border border-black/[.08] transition-all duration-300"
+                        style="background:#fff"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.18)';this.style.boxShadow='0 8px 30px rgba(0,0,0,.08)';this.style.transform='translateY(-2px)'"
+                        onmouseout="this.style.borderColor='rgba(0,0,0,.08)';this.style.boxShadow='none';this.style.transform='none'">
+                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Notifications</h3>
+                        <p class="text-sm text-gray-500 mb-3">Real-time notification system with type/status filters, mark as read, pagination, and header dropdown preview.</p>
+                        <p class="text-sm font-semibold text-gray-900">Never miss an update</p>
+                    </div>
+                    <!-- Dark Mode -->
+                    <div class="p-6 rounded-[14px] border border-black/[.08] transition-all duration-300"
+                        style="background:#fff"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.18)';this.style.boxShadow='0 8px 30px rgba(0,0,0,.08)';this.style.transform='translateY(-2px)'"
+                        onmouseout="this.style.borderColor='rgba(0,0,0,.08)';this.style.boxShadow='none';this.style.transform='none'">
+                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Dark Mode</h3>
+                        <p class="text-sm text-gray-500 mb-3">System preference detection, manual toggle, persistent theme preference with smooth transitions via next-themes.</p>
+                        <p class="text-sm font-semibold text-gray-900">Light &amp; dark, seamlessly</p>
+                    </div>
+                    <!-- Responsive -->
+                    <div class="p-6 rounded-[14px] border border-black/[.08] transition-all duration-300"
+                        style="background:#fff"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.18)';this.style.boxShadow='0 8px 30px rgba(0,0,0,.08)';this.style.transform='translateY(-2px)'"
+                        onmouseout="this.style.borderColor='rgba(0,0,0,.08)';this.style.boxShadow='none';this.style.transform='none'">
+                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Responsive Design</h3>
+                        <p class="text-sm text-gray-500 mb-3">Mobile-friendly layout with collapsible sidebar. Works beautifully on every screen size from phone to desktop.</p>
+                        <p class="text-sm font-semibold text-gray-900">Pixel-perfect on every device</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider max-w-5xl mx-auto"></div>
+
+        <!-- Tech Stack -->
+        <section class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-12 items-start">
+                    <div class="fade-in">
+                        <h2 class="text-3xl sm:text-4xl font-bold mb-4">Built on a modern stack</h2>
+                        <p class="text-gray-500 text-lg mb-8">Every technology choice is deliberate &mdash; fast builds, type safety, beautiful UI, and developer happiness.</p>
+                        <div class="space-y-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold mb-1">Next.js 14 App Router</h3>
+                                    <p class="text-sm text-gray-500">Server components, streaming, and the latest React features out of the box.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold mb-1">Tailwind CSS + Shadcn UI</h3>
+                                    <p class="text-sm text-gray-500">Utility-first styling with beautifully crafted Radix-based component primitives.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold mb-1">Zustand + React Hook Form</h3>
+                                    <p class="text-sm text-gray-500">Lightweight state management and performant forms with Zod schema validation.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold mb-1">Docker + Standalone Output</h3>
+                                    <p class="text-sm text-gray-500">Production-ready Dockerfile, docker-compose, and <code class="text-xs px-1.5 py-0.5 rounded bg-gray-100">output: 'standalone'</code> for optimized builds.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rounded-xl p-5 fade-in" style="background:#fafafa;border:1px solid rgba(0,0,0,.08);border-radius:12px">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                            </div>
+                            <span class="text-xs text-gray-400" style="font-family:'JetBrains Mono',monospace">project structure</span>
+                        </div>
+                        <pre class="text-sm text-gray-700 overflow-x-auto whitespace-pre" style="font-family:'JetBrains Mono',monospace"><code class="text-blue-600">app/</code>
+  <code class="text-purple-600">admin/users/</code>        <span class="text-gray-400"># User management</span>
+  <code class="text-purple-600">ai-chat/</code>            <span class="text-gray-400"># AI chat interface</span>
+  <code class="text-purple-600">billing/</code>            <span class="text-gray-400"># Billing & orders</span>
+  <code class="text-purple-600">credits/</code>            <span class="text-gray-400"># Pricing plans</span>
+  <code class="text-purple-600">dashboard/</code>          <span class="text-gray-400"># Analytics</span>
+  <code class="text-purple-600">notifications/</code>      <span class="text-gray-400"># Notification center</span>
+  <code class="text-purple-600">profile/</code>            <span class="text-gray-400"># User profile</span>
+  <code class="text-purple-600">api/</code>                <span class="text-gray-400"># Mock REST APIs</span>
+<code class="text-blue-600">components/</code>
+  <code class="text-green-600">ui/</code>                  <span class="text-gray-400"># Shadcn UI</span>
+  <code class="text-green-600">layout/</code>              <span class="text-gray-400"># Header, sidebar</span>
+  <code class="text-green-600">dashboard/</code>           <span class="text-gray-400"># Charts, stats</span>
+<code class="text-blue-600">lib/</code>
+  <code class="text-green-600">i18n/</code>                <span class="text-gray-400"># Translations</span>
+  <code class="text-green-600">auth.ts</code>              <span class="text-gray-400"># Token management</span>
+<code class="text-blue-600">store/</code>                  <span class="text-gray-400"># Zustand stores</span></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider max-w-5xl mx-auto"></div>
+
+        <!-- Pages Overview -->
+        <section class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-14 fade-in">
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-4">Every page, fully built</h2>
+                    <p class="text-gray-500 text-lg max-w-2xl mx-auto">Not just a skeleton &mdash; every route is functional with mock data, API integration, and polished UI.</p>
+                </div>
+                <div class="space-y-4 fade-in">
+                    <div class="flex flex-col sm:flex-row items-start gap-4 p-5 rounded-xl border border-gray-100 transition-all duration-200"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.15)';this.style.background='#fafafa'"
+                        onmouseout="this.style.borderColor='rgba(243,244,246,1)';this.style.background='transparent'">
+                        <div class="flex items-center gap-3 sm:w-48 flex-shrink-0">
+                            <code class="text-xs px-2 py-1 rounded font-medium" style="background:#f3f4f6;font-family:'JetBrains Mono',monospace">/dashboard</code>
+                        </div>
+                        <p class="text-sm text-gray-500">Revenue statistics with trend indicators, visitor overview chart (7d / 30d / 3mo), recent activity feed, and real-time data refresh.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-start gap-4 p-5 rounded-xl border border-gray-100 transition-all duration-200"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.15)';this.style.background='#fafafa'"
+                        onmouseout="this.style.borderColor='rgba(243,244,246,1)';this.style.background='transparent'">
+                        <div class="flex items-center gap-3 sm:w-48 flex-shrink-0">
+                            <code class="text-xs px-2 py-1 rounded font-medium" style="background:#f3f4f6;font-family:'JetBrains Mono',monospace">/admin/users</code>
+                        </div>
+                        <p class="text-sm text-gray-500">User list table with search, pagination, column sorting, user details drawer, and ban/unban with reason &amp; expiration.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-start gap-4 p-5 rounded-xl border border-gray-100 transition-all duration-200"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.15)';this.style.background='#fafafa'"
+                        onmouseout="this.style.borderColor='rgba(243,244,246,1)';this.style.background='transparent'">
+                        <div class="flex items-center gap-3 sm:w-48 flex-shrink-0">
+                            <code class="text-xs px-2 py-1 rounded font-medium" style="background:#f3f4f6;font-family:'JetBrains Mono',monospace">/ai-chat</code>
+                        </div>
+                        <p class="text-sm text-gray-500">Multi-provider AI chat with GPT-4o, GPT-4, Claude 3, Gemini Pro. Provider switching, real-time streaming, and conversation history.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-start gap-4 p-5 rounded-xl border border-gray-100 transition-all duration-200"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.15)';this.style.background='#fafafa'"
+                        onmouseout="this.style.borderColor='rgba(243,244,246,1)';this.style.background='transparent'">
+                        <div class="flex items-center gap-3 sm:w-48 flex-shrink-0">
+                            <code class="text-xs px-2 py-1 rounded font-medium" style="background:#f3f4f6;font-family:'JetBrains Mono',monospace">/billing</code>
+                        </div>
+                        <p class="text-sm text-gray-500">Current subscription plan display, order history table, and upgrade CTA linking to the credits/pricing page.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-start gap-4 p-5 rounded-xl border border-gray-100 transition-all duration-200"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.15)';this.style.background='#fafafa'"
+                        onmouseout="this.style.borderColor='rgba(243,244,246,1)';this.style.background='transparent'">
+                        <div class="flex items-center gap-3 sm:w-48 flex-shrink-0">
+                            <code class="text-xs px-2 py-1 rounded font-medium" style="background:#f3f4f6;font-family:'JetBrains Mono',monospace">/credits</code>
+                        </div>
+                        <p class="text-sm text-gray-500">Pricing plans (Free, Pro, Enterprise) with monthly/yearly toggle, plan comparison, and Stripe checkout integration.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-start gap-4 p-5 rounded-xl border border-gray-100 transition-all duration-200"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.15)';this.style.background='#fafafa'"
+                        onmouseout="this.style.borderColor='rgba(243,244,246,1)';this.style.background='transparent'">
+                        <div class="flex items-center gap-3 sm:w-48 flex-shrink-0">
+                            <code class="text-xs px-2 py-1 rounded font-medium" style="background:#f3f4f6;font-family:'JetBrains Mono',monospace">/notifications</code>
+                        </div>
+                        <p class="text-sm text-gray-500">Full notification list with type/status filters, mark as read/delete, pagination, and header dropdown with latest 5 items.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-start gap-4 p-5 rounded-xl border border-gray-100 transition-all duration-200"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.15)';this.style.background='#fafafa'"
+                        onmouseout="this.style.borderColor='rgba(243,244,246,1)';this.style.background='transparent'">
+                        <div class="flex items-center gap-3 sm:w-48 flex-shrink-0">
+                            <code class="text-xs px-2 py-1 rounded font-medium" style="background:#f3f4f6;font-family:'JetBrains Mono',monospace">/profile</code>
+                        </div>
+                        <p class="text-sm text-gray-500">Email management, authentication method management, and connect/disconnect third-party auth providers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider max-w-5xl mx-auto"></div>
+
+        <!-- How it works / Get Started -->
+        <section class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-14 fade-in">
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-4">Up and running in 3 steps</h2>
+                </div>
+                <div class="grid sm:grid-cols-3 gap-8 fade-in">
+                    <div class="text-center">
+                        <div
+                            class="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center text-lg font-bold mx-auto mb-4">
+                            1</div>
+                        <h3 class="font-bold mb-2">Clone &amp; Install</h3>
+                        <p class="text-sm text-gray-500">Clone the repository and run <code class="text-xs px-1.5 py-0.5 rounded" style="background:#f3f4f6;font-family:'JetBrains Mono',monospace">npm install</code>. All dependencies are pinned and tested.</p>
+                    </div>
+                    <div class="text-center">
+                        <div
+                            class="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center text-lg font-bold mx-auto mb-4">
+                            2</div>
+                        <h3 class="font-bold mb-2">Run Dev Server</h3>
+                        <p class="text-sm text-gray-500">Start with <code class="text-xs px-1.5 py-0.5 rounded" style="background:#f3f4f6;font-family:'JetBrains Mono',monospace">npm run dev</code>. Mock APIs included &mdash; no external services needed to explore every feature.</p>
+                    </div>
+                    <div class="text-center">
+                        <div
+                            class="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center text-lg font-bold mx-auto mb-4">
+                            3</div>
+                        <h3 class="font-bold mb-2">Customize &amp; Ship</h3>
+                        <p class="text-sm text-gray-500">Replace mock APIs with your backend, configure auth, connect Stripe, and deploy to Vercel, Docker, or any VPS.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider max-w-5xl mx-auto"></div>
+
+        <!-- Deployment Options -->
+        <section class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-14 fade-in">
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-4">Deploy anywhere</h2>
+                    <p class="text-gray-500 text-lg max-w-2xl mx-auto">Docker, Vercel, Netlify, or your own VPS &mdash; Lite SaaS Admin is ready for any environment.</p>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 fade-in">
+                    <div class="text-center p-6 rounded-xl border border-gray-100 transition-all duration-200"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.15)';this.style.background='#fafafa'"
+                        onmouseout="this.style.borderColor='rgba(243,244,246,1)';this.style.background='transparent'">
+                        <div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-sm mb-1">Docker</h3>
+                        <p class="text-xs text-gray-500">Dockerfile &amp; compose included</p>
+                    </div>
+                    <div class="text-center p-6 rounded-xl border border-gray-100 transition-all duration-200"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.15)';this.style.background='#fafafa'"
+                        onmouseout="this.style.borderColor='rgba(243,244,246,1)';this.style.background='transparent'">
+                        <div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-sm mb-1">Vercel</h3>
+                        <p class="text-xs text-gray-500">One-click deploy</p>
+                    </div>
+                    <div class="text-center p-6 rounded-xl border border-gray-100 transition-all duration-200"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.15)';this.style.background='#fafafa'"
+                        onmouseout="this.style.borderColor='rgba(243,244,246,1)';this.style.background='transparent'">
+                        <div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5a17.888 17.888 0 01-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-sm mb-1">Netlify</h3>
+                        <p class="text-xs text-gray-500">Build &amp; deploy config ready</p>
+                    </div>
+                    <div class="text-center p-6 rounded-xl border border-gray-100 transition-all duration-200"
+                        onmouseover="this.style.borderColor='rgba(0,0,0,.15)';this.style.background='#fafafa'"
+                        onmouseout="this.style.borderColor='rgba(243,244,246,1)';this.style.background='transparent'">
+                        <div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 013 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-sm mb-1">Self-Hosted</h3>
+                        <p class="text-xs text-gray-500">PM2 + Nginx on any VPS</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider max-w-5xl mx-auto"></div>
+
+        <!-- CTA -->
+        <section class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center fade-in">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4">Ready to ship your SaaS faster?</h2>
+                <p class="text-gray-500 mb-8 text-lg">Skip weeks of boilerplate. Start with a production-ready admin dashboard.</p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <a href="/login"
+                        class="inline-flex items-center justify-center gap-2 text-white font-semibold text-lg rounded-[10px] px-8 py-3.5 transition-all duration-200"
+                        style="background:#0a0a0a"
+                        onmouseover="this.style.background='#1a1a1a';this.style.boxShadow='0 6px 24px rgba(0,0,0,.18)';this.style.transform='translateY(-1px)'"
+                        onmouseout="this.style.background='#0a0a0a';this.style.boxShadow='none';this.style.transform='none'">
+                        Try Live Demo
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </a>
+                    <a href="https://github.com" target="_blank"
+                        class="inline-flex items-center justify-center gap-2 font-semibold text-sm rounded-lg px-6 py-3.5 transition-all duration-200"
+                        style="border:1.5px solid rgba(0,0,0,.15);background:#fff;color:#0a0a0a"
+                        onmouseover="this.style.borderColor='#0a0a0a';this.style.background='#fafafa'"
+                        onmouseout="this.style.borderColor='rgba(0,0,0,.15)';this.style.background='#fff'">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                        Star on GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fade-in observer + back to top (inside main as required) -->
+        <script>
+            // Fade in on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) { entry.target.classList.add('visible') }
+                })
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        </script>
+    </main>
+
+    <footer><!-- footer placeholder --></footer>
+
+</body>
+
+</html>
