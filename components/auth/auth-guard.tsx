@@ -29,19 +29,17 @@ export function AuthGuard({ children }: AuthGuardProps) {
     const publicPaths = ["/login", "/signup", "/verify-email", "/forgot-password", "/reset-password"]
     const isPublicPath = publicPaths.includes(pathname)
 
+    // Check auth from both token and localStorage user (zustand may not be hydrated yet)
+    const authenticated = isAuthenticated()
+    const hasUser = user !== null || (typeof window !== "undefined" && localStorage.getItem("user") !== null)
+
     if (isPublicPath) {
       // If already authenticated and trying to access auth pages, redirect to dashboard
-      const authenticated = isAuthenticated()
-      const hasUser = user !== null
       if (authenticated && hasUser) {
         router.push("/dashboard")
       }
       return
     }
-
-    // Check authentication
-    const authenticated = isAuthenticated()
-    const hasUser = user !== null
 
     // If not authenticated or no user data, redirect to login
     if (!authenticated || !hasUser) {
@@ -64,7 +62,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
 
   // Check authentication
   const authenticated = isAuthenticated()
-  const hasUser = user !== null
+  const hasUser = user !== null || (typeof window !== "undefined" && localStorage.getItem("user") !== null)
 
   // If not authenticated, don't render (will redirect)
   if (!authenticated || !hasUser) {

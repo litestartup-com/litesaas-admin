@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Info } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { setAuthToken } from "@/lib/auth"
+import { setAuthTokens } from "@/lib/auth"
 import { useUser } from "@/store/use-user"
 
 const verifySchema = z.object({
@@ -76,9 +76,13 @@ export default function VerifyEmailPage() {
       const result = await response.json()
 
       if (result.success) {
-        // Store token with expiration
+        // Store tokens with expiration
         if (result.data.token) {
-          setAuthToken(result.data.token)
+          setAuthTokens(
+            result.data.token,
+            result.data.refresh_token || "",
+            result.data.expires_in || 3600
+          )
         }
         // Store user info
         if (result.data.user) {
