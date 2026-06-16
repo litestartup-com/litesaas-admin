@@ -207,24 +207,24 @@ export async function lsRefreshToken(
 }
 
 export async function lsGetUser(appToken: string): Promise<LSUser> {
-  const res = await lsFetch<LSUser>(
+  const res = await lsFetch<{ user: LSUser }>(
     "/client/v2/auth/app/user",
     { method: "GET" },
     appToken
   )
-  return res.data
+  return res.data.user
 }
 
 export async function lsUpdateUser(
   appToken: string,
   data: { name?: string; avatar_url?: string }
 ): Promise<LSUser> {
-  const res = await lsFetch<LSUser>(
+  const res = await lsFetch<{ user: LSUser }>(
     "/client/v2/auth/app/user",
     { method: "PUT", body: JSON.stringify(data) },
     appToken
   )
-  return res.data
+  return res.data.user
 }
 
 export async function lsLogout(appToken: string): Promise<void> {
