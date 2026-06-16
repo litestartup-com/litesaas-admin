@@ -38,12 +38,13 @@ export async function GET(request: NextRequest) {
       redirect_uri: redirectUri,
     }).toString()
 
-  // We need to pass the API key as a header, but since this is a browser redirect,
-  // we use a server-side fetch to get the actual Google/GitHub auth URL
+  // Server-side fetch to get the actual Google/GitHub auth URL from LS
+  // Must use Authorization: Bearer format (AuthForWebMiddleware expects this)
   const response = await fetch(oauthUrl, {
     method: "GET",
     headers: {
-      "X-API-Key": lsApiKey,
+      Authorization: `Bearer ${lsApiKey}`,
+      Accept: "application/json",
     },
     redirect: "manual", // Don't follow redirects, capture the Location header
   })
@@ -61,7 +62,7 @@ export async function GET(request: NextRequest) {
   try {
     const json = JSON.parse(text)
     errorMessage = json.message || errorMessage
-  } catch {}
+  } catch { }
 
   return NextResponse.json(
     { success: false, error: { message: errorMessage } },
