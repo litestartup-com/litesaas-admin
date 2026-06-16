@@ -215,7 +215,7 @@ export function ProfileContent() {
                 {t('profile.authenticationDescription')}
               </p>
               <div className="space-y-4">
-                {profileData?.authentication.map((auth) => (
+                {(profileData?.authentication || []).map((auth) => (
                   <div
                     key={auth.id}
                     className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 border rounded-lg overflow-hidden"

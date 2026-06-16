@@ -20,14 +20,15 @@ export async function POST(request: Request) {
     }
 
     const result = await lsVerifyCode(email, code)
+    console.log("[verify-email] lsVerifyCode result keys:", Object.keys(result), "access_token?", !!result.access_token)
 
     return NextResponse.json({
       success: true,
       data: {
         user: result.user,
-        token: result.access_token,
-        refresh_token: result.refresh_token,
-        expires_in: result.expires_in,
+        token: result.access_token || null,
+        refresh_token: result.refresh_token || null,
+        expires_in: result.expires_in || 3600,
       },
     })
   } catch (error: any) {

@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
     const result = await lsChatCompletion(llmMessages, provider)
     const assistantContent =
-      result.choices?.[0]?.message?.content || "No response generated."
+      (result as any).content || result.choices?.[0]?.message?.content || "No response generated."
 
     return NextResponse.json({
       success: true,

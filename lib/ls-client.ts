@@ -268,11 +268,16 @@ export async function lsChatCompletion(
   messages: LSChatMessage[],
   model?: string
 ): Promise<LSChatResponse> {
+  // LS backend expects: prompt (last user message), conversation (history), tag
+  const prompt = messages[messages.length - 1]?.content || ""
+  const conversation = messages.length > 1 ? messages.slice(0, -1) : []
+
   const res = await lsFetch<LSChatResponse>("/client/v2/ai/chat", {
     method: "POST",
     body: JSON.stringify({
-      messages,
-      model: model || "default",
+      prompt,
+      conversation,
+      tag: model || "fast",
     }),
   })
   return res.data
