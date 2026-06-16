@@ -45,6 +45,7 @@ export async function POST(request: Request) {
       },
     })
   } catch (error: any) {
+    console.error("[signup] error:", error?.message, error?.lsResponse || "")
     const status = error?.status || 500
     return NextResponse.json(
       {
