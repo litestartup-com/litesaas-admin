@@ -16,7 +16,7 @@ import { setAuthToken } from "@/lib/auth"
 import { useUser } from "@/store/use-user"
 
 const verifySchema = z.object({
-  code: z.string().length(5, "Verification code must be 5 digits"),
+  code: z.string().length(6, "Verification code must be 6 digits"),
 })
 
 type VerifyFormValues = z.infer<typeof verifySchema>
@@ -152,8 +152,8 @@ export default function VerifyEmailPage() {
             <Input
               id="code"
               type="text"
-              placeholder="•••••"
-              maxLength={5}
+              placeholder="••••••"
+              maxLength={6}
               className={cn(
                 "text-center text-2xl tracking-widest",
                 errors.code && "border-destructive focus-visible:ring-destructive"
