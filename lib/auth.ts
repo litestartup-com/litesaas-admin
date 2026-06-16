@@ -1,28 +1,48 @@
+/**
+ * T-LSS01 Auth token management
+ *
+ * Stores access_token + refresh_token from LS Auth App.
+ * Access tokens are short-lived (1 h); refresh tokens last 7 d.
+ * The refresh flow is handled by the Next.js API routes so the
+ * LS API Key never reaches the browser.
+ */
+
 interface TokenData {
-  token: string
+  accessToken: string
+  refreshToken: string
   expiresAt: number // Unix timestamp in milliseconds
 }
 
-const TOKEN_KEY = "auth_token"
-const TOKEN_EXPIRY_HOURS = 1
+const TOKEN_KEY = "auth_tokens"
 
 /**
- * Store authentication token with expiration
+ * Store both tokens after login / register / refresh
  */
-export function setAuthToken(token: string): void {
+export function setAuthTokens(
+  accessToken: string,
+  refreshToken: string,
+  expiresIn: number = 3600
+): void {
   if (typeof window === "undefined") return
 
-  const expiresAt = Date.now() + TOKEN_EXPIRY_HOURS * 60 * 60 * 1000
   const tokenData: TokenData = {
-    token,
-    expiresAt,
+    accessToken,
+    refreshToken,
+    expiresAt: Date.now() + expiresIn * 1000,
   }
 
   localStorage.setItem(TOKEN_KEY, JSON.stringify(tokenData))
 }
 
 /**
- * Get authentication token if valid
+ * Legacy compat — store a single access token (sets refresh to empty)
+ */
+export function setAuthToken(token: string): void {
+  setAuthTokens(token, "", 3600)
+}
+
+/**
+ * Get the access token if not expired
  */
 export function getAuthToken(): string | null {
   if (typeof window === "undefined") return null
@@ -33,30 +53,44 @@ export function getAuthToken(): string | null {
   try {
     const tokenData: TokenData = JSON.parse(stored)
 
-    // Check if token is expired
     if (Date.now() >= tokenData.expiresAt) {
-      // Token expired, remove it
-      clearAuthToken()
+      // Access token expired — caller should attempt refresh
       return null
     }
 
-    return tokenData.token
+    return tokenData.accessToken
   } catch {
-    // Invalid token data, remove it
     clearAuthToken()
     return null
   }
 }
 
 /**
- * Check if user is authenticated (has valid token)
+ * Get the refresh token (regardless of access token expiry)
+ */
+export function getRefreshToken(): string | null {
+  if (typeof window === "undefined") return null
+
+  const stored = localStorage.getItem(TOKEN_KEY)
+  if (!stored) return null
+
+  try {
+    const tokenData: TokenData = JSON.parse(stored)
+    return tokenData.refreshToken || null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Check if user is authenticated (has valid access token)
  */
 export function isAuthenticated(): boolean {
   return getAuthToken() !== null
 }
 
 /**
- * Clear authentication token
+ * Clear all auth tokens
  */
 export function clearAuthToken(): void {
   if (typeof window === "undefined") return

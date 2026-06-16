@@ -1,16 +1,11 @@
 import { NextResponse } from "next/server"
-
-// Simulate API delay
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+import { lsRegister, lsRequestCode } from "@/lib/ls-client"
 
 export async function POST(request: Request) {
-  await delay(500)
-
   try {
     const body = await request.json()
-    const { email } = body
+    const { email, password, name } = body
 
-    // Validation
     if (!email) {
       return NextResponse.json(
         {
@@ -18,51 +13,48 @@ export async function POST(request: Request) {
           error: {
             code: "VALIDATION_ERROR",
             message: "Email is required",
-            details: [{ field: "email", message: "Email is required" }],
           },
         },
         { status: 400 }
       )
     }
 
-    // Email format validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: {
-            code: "VALIDATION_ERROR",
-            message: "Invalid email format",
-            details: [{ field: "email", message: "Please enter a valid email address" }],
-          },
+    // If password provided → full register; else → request verification code
+    if (password) {
+      const result = await lsRegister(email, password, name)
+
+      return NextResponse.json({
+        success: true,
+        data: {
+          user: result.user,
+          token: result.access_token,
+          refresh_token: result.refresh_token,
+          expires_in: result.expires_in,
         },
-        { status: 400 }
-      )
+      })
     }
 
-    // Mock: Use fixed verification code for testing
-    // In real app, generate and send via email
-    const verificationCode = "12345"
+    // No password — send verification code for email-first signup
+    await lsRequestCode(email)
 
     return NextResponse.json({
       success: true,
       data: {
         email,
-        verificationCode, // In real app, this would be sent via email
         message: "Verification code sent to your email",
       },
     })
-  } catch (error) {
+  } catch (error: any) {
+    const status = error?.status || 500
     return NextResponse.json(
       {
         success: false,
         error: {
           code: "INTERNAL_ERROR",
-          message: "An error occurred during signup",
+          message: error?.message || "An error occurred during signup",
         },
       },
-      { status: 500 }
+      { status }
     )
   }
 }

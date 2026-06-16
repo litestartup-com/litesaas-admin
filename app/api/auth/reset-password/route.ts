@@ -1,16 +1,24 @@
 import { NextResponse } from "next/server"
-
-// Simulate API delay
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+import { lsForgotPassword, lsResetPassword } from "@/lib/ls-client"
 
 export async function POST(request: Request) {
-  await delay(500)
-
   try {
     const body = await request.json()
-    const { email } = body
+    const { email, token, password } = body
 
-    // Validation
+    // If token + password → complete the reset
+    if (token && password) {
+      await lsResetPassword(token, password)
+
+      return NextResponse.json({
+        success: true,
+        data: {
+          message: "Password has been reset successfully",
+        },
+      })
+    }
+
+    // Otherwise → request the reset email
     if (!email) {
       return NextResponse.json(
         {
@@ -18,46 +26,31 @@ export async function POST(request: Request) {
           error: {
             code: "VALIDATION_ERROR",
             message: "Email is required",
-            details: [{ field: "email", message: "Email is required" }],
           },
         },
         { status: 400 }
       )
     }
 
-    // Email format validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: {
-            code: "VALIDATION_ERROR",
-            message: "Invalid email format",
-            details: [{ field: "email", message: "Please enter a valid email address" }],
-          },
-        },
-        { status: 400 }
-      )
-    }
+    await lsForgotPassword(email)
 
-    // Mock: In real app, send password reset link via email
     return NextResponse.json({
       success: true,
       data: {
         message: "Password reset link has been sent to your email",
       },
     })
-  } catch (error) {
+  } catch (error: any) {
+    const status = error?.status || 500
     return NextResponse.json(
       {
         success: false,
         error: {
           code: "INTERNAL_ERROR",
-          message: "An error occurred while sending reset link",
+          message: error?.message || "An error occurred while sending reset link",
         },
       },
-      { status: 500 }
+      { status }
     )
   }
 }

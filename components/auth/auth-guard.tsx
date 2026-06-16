@@ -26,7 +26,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
     if (!mounted) return
 
     // Allow access to auth pages without authentication
-    const publicPaths = ["/login", "/signup", "/verify-email"]
+    const publicPaths = ["/login", "/signup", "/verify-email", "/forgot-password", "/reset-password"]
     const isPublicPath = publicPaths.includes(pathname)
 
     if (isPublicPath) {
@@ -55,7 +55,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
   }
 
   // Allow public paths
-  const publicPaths = ["/login", "/signup", "/verify-email"]
+  const publicPaths = ["/login", "/signup", "/verify-email", "/forgot-password", "/reset-password"]
   const isPublicPath = publicPaths.includes(pathname)
 
   if (isPublicPath) {

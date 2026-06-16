@@ -20,7 +20,7 @@ A modern, production-ready SaaS admin dashboard built with Next.js 14, TypeScrip
 - **Notifications** — Type/status filters, mark as read, pagination, header dropdown preview
 - **Profile** — Email management, authentication method management, third-party auth connect/disconnect
 - **Internationalization** — English & Chinese (简体中文), Zustand-powered with persistent preference
-- **Authentication** — Token-based auth, 1-hour expiry, auto redirect, route protection (AuthGuard)
+- **Authentication** — JWT-based auth via LiteStartup backend, auto refresh, route protection (AuthGuard)
 - **Responsive Design** — Mobile-friendly with collapsible sidebar
 - **Dark Mode** — System preference detection, manual toggle, persistent theme via next-themes
 
@@ -45,6 +45,7 @@ A modern, production-ready SaaS admin dashboard built with Next.js 14, TypeScrip
 
 - Node.js 18+
 - npm, yarn, or pnpm
+- A running [LiteStartup](https://www.litestartup.com) instance with an API Key (requires `auth` scope)
 
 ### Setup
 
@@ -56,8 +57,9 @@ cd litesaas-admin
 # Install dependencies
 npm install
 
-# Copy environment variables
+# Copy environment variables and fill in your LS API Key
 cp .env.example .env.local
+# Edit .env.local → set LS_API_URL and LS_API_KEY
 
 # Start development server
 npm run dev
@@ -65,7 +67,15 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-> **Note:** The project includes mock API endpoints — no external services are required to explore every feature.
+### Environment Variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `NEXT_PUBLIC_APP_URL` | Yes | Public URL of this app (e.g. `http://localhost:3000`) |
+| `LS_API_URL` | Yes | Base URL of your LiteStartup instance |
+| `LS_API_KEY` | Yes | LS API Key with `auth` scope |
+
+> **Note:** Authentication, AI chat, and profile are powered by the LS backend. Make sure your API Key has the `auth` scope enabled.
 
 ## Project Structure
 
@@ -74,7 +84,7 @@ litesaas-admin/
 ├── app/                          # Next.js App Router
 │   ├── admin/users/              # User management
 │   ├── ai-chat/                  # AI chat interface
-│   ├── api/                      # Mock API routes
+│   ├── api/                      # API routes (proxy to LS backend)
 │   │   ├── ai/                   # AI chat APIs
 │   │   ├── auth/                 # Authentication APIs
 │   │   ├── billing/              # Billing APIs

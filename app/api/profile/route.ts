@@ -1,95 +1,75 @@
 import { NextResponse } from "next/server"
+import { authenticateRequest } from "@/lib/api-auth"
+import { lsGetUser, lsUpdateUser } from "@/lib/ls-client"
+import type { NextRequest } from "next/server"
 
-// Mock profile data
-const PROFILE_DATA = {
-  email: "user@example.com",
-  authentication: [
-    {
-      id: "email-password",
-      type: "email",
-      name: "Email & Password",
-      email: "nemodingding@gmail.com",
-      connectedAt: "2026-01-06",
-      icon: "Mail",
-      canDisconnect: true,
-    },
-    {
-      id: "google",
-      type: "google",
-      name: "Google",
-      email: "nemodingding@gmail.com",
-      connectedAt: "2026-01-06",
-      icon: "Chrome",
-      canDisconnect: false,
-    },
-  ],
-}
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-export async function GET() {
-  await delay(200)
-
-  return NextResponse.json({
-    success: true,
-    data: PROFILE_DATA,
-  })
-}
-
-export async function PUT(request: Request) {
-  await delay(300)
-
+export async function GET(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { email } = body
-
-    // Validation
-    if (!email) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: {
-            code: "VALIDATION_ERROR",
-            message: "Email is required",
-          },
-        },
-        { status: 400 }
-      )
+    const auth = authenticateRequest(request)
+    if (!auth.authenticated) {
+      return auth.response!
     }
 
-    // Email format validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: {
-            code: "VALIDATION_ERROR",
-            message: "Invalid email format",
-          },
-        },
-        { status: 400 }
-      )
-    }
+    const user = await lsGetUser(auth.token!)
 
-    // Mock: Update email in database
     return NextResponse.json({
       success: true,
       data: {
-        ...PROFILE_DATA,
-        email,
+        email: user.email,
+        name: user.name,
+        avatar_url: user.avatar_url,
+        email_verified: user.email_verified,
+        oauth_provider: user.oauth_provider,
+        created_at: user.created_at,
       },
     })
-  } catch (error) {
+  } catch (error: any) {
+    const status = error?.status || 500
     return NextResponse.json(
       {
         success: false,
         error: {
           code: "INTERNAL_ERROR",
-          message: "An error occurred while updating profile",
+          message: error?.message || "An error occurred while fetching profile",
         },
       },
-      { status: 500 }
+      { status }
+    )
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const auth = authenticateRequest(request)
+    if (!auth.authenticated) {
+      return auth.response!
+    }
+
+    const body = await request.json()
+    const { name, avatar_url } = body
+
+    const user = await lsUpdateUser(auth.token!, { name, avatar_url })
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        email: user.email,
+        name: user.name,
+        avatar_url: user.avatar_url,
+        email_verified: user.email_verified,
+      },
+    })
+  } catch (error: any) {
+    const status = error?.status || 500
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: "INTERNAL_ERROR",
+          message: error?.message || "An error occurred while updating profile",
+        },
+      },
+      { status }
     )
   }
 }

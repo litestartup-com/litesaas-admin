@@ -1,19 +1,11 @@
 import { NextResponse } from "next/server"
-
-// Simulate API delay
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-// Mock verification code (in real app, this would be stored in database)
-const MOCK_VERIFICATION_CODE = "12345"
+import { lsVerifyCode } from "@/lib/ls-client"
 
 export async function POST(request: Request) {
-  await delay(500)
-
   try {
     const body = await request.json()
     const { email, code } = body
 
-    // Validation
     if (!email || !code) {
       return NextResponse.json(
         {
@@ -27,46 +19,28 @@ export async function POST(request: Request) {
       )
     }
 
-    // Check verification code
-    if (code === MOCK_VERIFICATION_CODE) {
-      // Generate a mock token (in production, use a proper JWT library)
-      const token = `mock-jwt-token-${Date.now()}-${Math.random().toString(36).substring(7)}`
-      
-      return NextResponse.json({
-        success: true,
-        data: {
-          user: {
-            id: "1",
-            email,
-            name: "User",
-          },
-          token: token,
-        },
-      })
-    }
+    const result = await lsVerifyCode(email, code)
 
-    // Invalid code
+    return NextResponse.json({
+      success: true,
+      data: {
+        user: result.user,
+        token: result.access_token,
+        refresh_token: result.refresh_token,
+        expires_in: result.expires_in,
+      },
+    })
+  } catch (error: any) {
+    const status = error?.status || 500
     return NextResponse.json(
       {
         success: false,
         error: {
-          code: "INVALID_CODE",
-          message: "Invalid verification code",
-          details: [{ field: "code", message: "The verification code is incorrect" }],
+          code: status === 400 ? "INVALID_CODE" : "INTERNAL_ERROR",
+          message: error?.message || "An error occurred during verification",
         },
       },
-      { status: 400 }
-    )
-  } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: {
-          code: "INTERNAL_ERROR",
-          message: "An error occurred during verification",
-        },
-      },
-      { status: 500 }
+      { status }
     )
   }
 }

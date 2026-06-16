@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from "next/server"
 
 /**
+ * T-LSS01 Server-side API auth helpers
+ *
+ * Tokens are LS Auth App JWTs. The Next.js API routes act as a
+ * proxy: the browser sends the access_token in the Authorization
+ * header and the route forwards it to LS via X-App-Token.
+ */
+
+/**
  * Extract token from Authorization header
  */
 export function getTokenFromRequest(request: NextRequest): string | null {
@@ -12,32 +20,32 @@ export function getTokenFromRequest(request: NextRequest): string | null {
 }
 
 /**
- * Verify token and check expiration
- * In production, this would verify JWT signature
+ * Basic structural check — real validation happens on the LS side
+ * when the token is forwarded via X-App-Token.
  */
 export function verifyToken(token: string): { valid: boolean; expired?: boolean } {
-  // In a real app, you would:
-  // 1. Verify JWT signature
-  // 2. Check expiration from JWT payload
-  // 3. Validate token structure
-  
-  // For mock implementation, we'll check if token exists and is not expired
-  // The actual expiration is handled client-side in getAuthToken()
-  // But we can add server-side validation here
-  
   if (!token || token.length === 0) {
     return { valid: false }
   }
 
-  // Mock: Check if token format is valid (starts with "mock-jwt-token")
-  if (!token.startsWith("mock-jwt-token")) {
+  // LS Auth App issues standard JWT (header.payload.signature)
+  const parts = token.split(".")
+  if (parts.length !== 3) {
     return { valid: false }
   }
 
-  // In production, decode JWT and check expiration
-  // For now, we'll trust the client-side expiration check
-  // But we can add server-side validation if needed
-  
+  // Optionally check exp claim client-side for fast rejection
+  try {
+    const payload = JSON.parse(
+      Buffer.from(parts[1], "base64url").toString("utf8")
+    )
+    if (payload.exp && payload.exp * 1000 < Date.now()) {
+      return { valid: false, expired: true }
+    }
+  } catch {
+    // If we can't decode, let LS do the final check
+  }
+
   return { valid: true }
 }
 
@@ -46,6 +54,7 @@ export function verifyToken(token: string): { valid: boolean; expired?: boolean 
  */
 export function authenticateRequest(request: NextRequest): {
   authenticated: boolean
+  token?: string
   response?: NextResponse
 } {
   const token = getTokenFromRequest(request)
@@ -74,8 +83,10 @@ export function authenticateRequest(request: NextRequest): {
         {
           success: false,
           error: {
-            code: "UNAUTHORIZED",
-            message: "Invalid or expired token",
+            code: verification.expired ? "TOKEN_EXPIRED" : "UNAUTHORIZED",
+            message: verification.expired
+              ? "Token has expired. Please refresh."
+              : "Invalid or expired token",
           },
         },
         { status: 401 }
@@ -83,5 +94,5 @@ export function authenticateRequest(request: NextRequest): {
     }
   }
 
-  return { authenticated: true }
+  return { authenticated: true, token }
 }
