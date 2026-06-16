@@ -26,14 +26,17 @@ export default function SignupPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [oauthConfig, setOauthConfig] = useState<{ google?: { enabled: boolean }; github?: { enabled: boolean } }>({ google: { enabled: true } })
+  const [oauthConfig, setOauthConfig] = useState<{ google?: { enabled: boolean }; github?: { enabled: boolean } }>({ google: { enabled: true }, github: { enabled: false } })
 
   useEffect(() => {
     fetch("/api/auth/oauth-config")
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data) {
-          setOauthConfig(data.data)
+          setOauthConfig({
+            google: { enabled: true }, // Mode A always available
+            github: data.data.github ?? { enabled: false },
+          })
         }
       })
       .catch(() => { })
