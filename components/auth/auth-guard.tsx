@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation"
 import { getAuthToken } from "@/lib/auth"
 import { useUser } from "@/store/use-user"
 
-const PUBLIC_PATHS = ["/login", "/signup", "/verify-email", "/forgot-password", "/reset-password"]
+const PUBLIC_PATHS = ["/login", "/signup", "/verify-email", "/forgot-password", "/reset-password", "/auth/oauth/callback"]
 
 interface AuthGuardProps {
   children: React.ReactNode

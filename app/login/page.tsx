@@ -215,9 +215,23 @@ export default function LoginPage() {
             variant="outline"
             className="w-full"
             type="button"
-            onClick={() => {
-              // Handle Google login
-              console.log("Google login clicked")
+            disabled={isLoading}
+            onClick={async () => {
+              setIsLoading(true)
+              setError(null)
+              try {
+                const res = await fetch("/api/auth/oauth/redirect?provider=google")
+                const data = await res.json()
+                if (data.success && data.data?.url) {
+                  window.location.href = data.data.url
+                } else {
+                  setError(data.error?.message || "Failed to initiate Google login")
+                  setIsLoading(false)
+                }
+              } catch {
+                setError("Failed to initiate Google login")
+                setIsLoading(false)
+              }
             }}
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
@@ -244,9 +258,23 @@ export default function LoginPage() {
             variant="outline"
             className="w-full"
             type="button"
-            onClick={() => {
-              // Handle GitHub login
-              console.log("GitHub login clicked")
+            disabled={isLoading}
+            onClick={async () => {
+              setIsLoading(true)
+              setError(null)
+              try {
+                const res = await fetch("/api/auth/oauth/redirect?provider=github")
+                const data = await res.json()
+                if (data.success && data.data?.url) {
+                  window.location.href = data.data.url
+                } else {
+                  setError(data.error?.message || "Failed to initiate GitHub login")
+                  setIsLoading(false)
+                }
+              } catch {
+                setError("Failed to initiate GitHub login")
+                setIsLoading(false)
+              }
             }}
           >
             <Github className="mr-2 h-4 w-4" />

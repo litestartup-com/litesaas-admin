@@ -1,30 +1,29 @@
 import { NextResponse } from "next/server"
 
-// Mock AI providers
 const PROVIDERS = [
   {
-    id: "gpt-4o",
-    name: "GPT 4o",
-    description: "OpenAI's latest model",
-    icon: "OpenAI",
+    id: "free",
+    name: "Free",
+    description: "Basic model, no credits consumed",
+    icon: "Zap",
   },
   {
-    id: "gpt-4",
-    name: "GPT 4",
-    description: "OpenAI GPT-4",
-    icon: "OpenAI",
+    id: "fast",
+    name: "Fast",
+    description: "Quick responses, low cost",
+    icon: "Bolt",
   },
   {
-    id: "claude-3",
-    name: "Claude 3",
-    description: "Anthropic's Claude 3",
-    icon: "Anthropic",
+    id: "smart",
+    name: "Smart",
+    description: "Balanced quality and speed",
+    icon: "Brain",
   },
   {
-    id: "gemini-pro",
-    name: "Gemini Pro",
-    description: "Google's Gemini Pro",
-    icon: "Google",
+    id: "creative",
+    name: "Creative",
+    description: "Best quality, higher cost",
+    icon: "Sparkles",
   },
 ]
 

@@ -85,9 +85,23 @@ export default function SignupPage() {
             variant="outline"
             className="w-full"
             type="button"
-            onClick={() => {
-              // Handle Google signup
-              console.log("Google signup clicked")
+            disabled={isLoading}
+            onClick={async () => {
+              setIsLoading(true)
+              setError(null)
+              try {
+                const res = await fetch("/api/auth/oauth/redirect?provider=google")
+                const data = await res.json()
+                if (data.success && data.data?.url) {
+                  window.location.href = data.data.url
+                } else {
+                  setError(data.error?.message || "Failed to initiate Google signup")
+                  setIsLoading(false)
+                }
+              } catch {
+                setError("Failed to initiate Google signup")
+                setIsLoading(false)
+              }
             }}
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
@@ -114,9 +128,23 @@ export default function SignupPage() {
             variant="outline"
             className="w-full"
             type="button"
-            onClick={() => {
-              // Handle GitHub signup
-              console.log("GitHub signup clicked")
+            disabled={isLoading}
+            onClick={async () => {
+              setIsLoading(true)
+              setError(null)
+              try {
+                const res = await fetch("/api/auth/oauth/redirect?provider=github")
+                const data = await res.json()
+                if (data.success && data.data?.url) {
+                  window.location.href = data.data.url
+                } else {
+                  setError(data.error?.message || "Failed to initiate GitHub signup")
+                  setIsLoading(false)
+                }
+              } catch {
+                setError("Failed to initiate GitHub signup")
+                setIsLoading(false)
+              }
             }}
           >
             <Github className="mr-2 h-4 w-4" />
