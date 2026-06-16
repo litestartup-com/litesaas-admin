@@ -116,6 +116,25 @@ async function lsFetch<T = any>(
 }
 
 // --------------------------------------------------------------------------
+// Helpers
+// --------------------------------------------------------------------------
+
+/**
+ * Normalize LS auth response — backend returns tokens nested under `tokens` key:
+ * { user: {...}, tokens: { access_token, refresh_token, expires_in } }
+ * but our LSAuthResponse expects flat: { user, access_token, refresh_token, expires_in }
+ */
+function normalizeAuthResponse(data: any): LSAuthResponse {
+  const tokens = data.tokens || {}
+  return {
+    user: data.user,
+    access_token: tokens.access_token || data.access_token || "",
+    refresh_token: tokens.refresh_token || data.refresh_token || "",
+    expires_in: tokens.expires_in || data.expires_in || 3600,
+  }
+}
+
+// --------------------------------------------------------------------------
 // Auth endpoints (/client/v2/auth/app/*)
 // --------------------------------------------------------------------------
 
@@ -124,22 +143,22 @@ export async function lsRegister(
   password: string,
   name?: string
 ): Promise<LSAuthResponse> {
-  const res = await lsFetch<LSAuthResponse>("/client/v2/auth/app/register", {
+  const res = await lsFetch<any>("/client/v2/auth/app/register", {
     method: "POST",
     body: JSON.stringify({ email, password, name }),
   })
-  return res.data
+  return normalizeAuthResponse(res.data)
 }
 
 export async function lsLogin(
   email: string,
   password: string
 ): Promise<LSAuthResponse> {
-  const res = await lsFetch<LSAuthResponse>("/client/v2/auth/app/login", {
+  const res = await lsFetch<any>("/client/v2/auth/app/login", {
     method: "POST",
     body: JSON.stringify({ email, password }),
   })
-  return res.data
+  return normalizeAuthResponse(res.data)
 }
 
 export async function lsRequestCode(email: string): Promise<void> {
@@ -153,11 +172,11 @@ export async function lsVerifyCode(
   email: string,
   code: string
 ): Promise<LSAuthResponse> {
-  const res = await lsFetch<LSAuthResponse>("/client/v2/auth/app/verify-code", {
+  const res = await lsFetch<any>("/client/v2/auth/app/verify-code", {
     method: "POST",
     body: JSON.stringify({ email, code }),
   })
-  return res.data
+  return normalizeAuthResponse(res.data)
 }
 
 export async function lsForgotPassword(email: string): Promise<void> {
@@ -180,11 +199,11 @@ export async function lsResetPassword(
 export async function lsRefreshToken(
   refreshToken: string
 ): Promise<LSAuthResponse> {
-  const res = await lsFetch<LSAuthResponse>("/client/v2/auth/app/refresh", {
+  const res = await lsFetch<any>("/client/v2/auth/app/refresh", {
     method: "POST",
     body: JSON.stringify({ refresh_token: refreshToken }),
   })
-  return res.data
+  return normalizeAuthResponse(res.data)
 }
 
 export async function lsGetUser(appToken: string): Promise<LSUser> {
