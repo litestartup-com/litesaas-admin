@@ -2,69 +2,76 @@
 
 import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import { isAuthenticated } from "@/lib/auth"
+import { getAuthToken } from "@/lib/auth"
 import { useUser } from "@/store/use-user"
+
+const PUBLIC_PATHS = ["/login", "/signup", "/verify-email", "/forgot-password", "/reset-password"]
 
 interface AuthGuardProps {
   children: React.ReactNode
 }
 
 /**
- * AuthGuard component that redirects to login if user is not authenticated
+ * AuthGuard component that redirects to login if user is not authenticated.
+ * Handles hydration by syncing localStorage → zustand on mount.
  */
 export function AuthGuard({ children }: AuthGuardProps) {
   const router = useRouter()
   const pathname = usePathname()
-  const { user } = useUser()
-  const [mounted, setMounted] = useState(false)
+  const { user, setUser } = useUser()
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    // On mount (client only): ensure zustand user is in sync with localStorage
+    if (typeof window === "undefined") return
+
+    if (!user) {
+      const stored = localStorage.getItem("user")
+      if (stored) {
+        try {
+          setUser(JSON.parse(stored))
+        } catch {
+          // corrupted — clear it
+          localStorage.removeItem("user")
+        }
+      }
+    }
+    setReady(true)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!mounted) return
+    if (!ready) return
 
-    // Allow access to auth pages without authentication
-    const publicPaths = ["/login", "/signup", "/verify-email", "/forgot-password", "/reset-password"]
-    const isPublicPath = publicPaths.includes(pathname)
-
-    // Check auth from both token and localStorage user (zustand may not be hydrated yet)
-    const authenticated = isAuthenticated()
-    const hasUser = user !== null || (typeof window !== "undefined" && localStorage.getItem("user") !== null)
+    const isPublicPath = PUBLIC_PATHS.includes(pathname)
+    const authenticated = getAuthToken() !== null
+    const hasUser = localStorage.getItem("user") !== null
 
     if (isPublicPath) {
-      // If already authenticated and trying to access auth pages, redirect to dashboard
       if (authenticated && hasUser) {
-        router.push("/dashboard")
+        router.replace("/dashboard")
       }
       return
     }
 
-    // If not authenticated or no user data, redirect to login
     if (!authenticated || !hasUser) {
-      router.push("/login")
+      router.replace("/login")
     }
-  }, [mounted, pathname, router, user])
+  }, [ready, pathname, router])
 
-  // Don't render children until mounted to prevent hydration mismatch
-  if (!mounted) {
+  // Don't render anything until client has mounted and checked auth
+  if (!ready) {
     return null
   }
 
-  // Allow public paths
-  const publicPaths = ["/login", "/signup", "/verify-email", "/forgot-password", "/reset-password"]
-  const isPublicPath = publicPaths.includes(pathname)
-
+  const isPublicPath = PUBLIC_PATHS.includes(pathname)
   if (isPublicPath) {
     return <>{children}</>
   }
 
-  // Check authentication
-  const authenticated = isAuthenticated()
-  const hasUser = user !== null || (typeof window !== "undefined" && localStorage.getItem("user") !== null)
+  // Final sync check — use localStorage directly (source of truth)
+  const authenticated = getAuthToken() !== null
+  const hasUser = localStorage.getItem("user") !== null
 
-  // If not authenticated, don't render (will redirect)
   if (!authenticated || !hasUser) {
     return null
   }

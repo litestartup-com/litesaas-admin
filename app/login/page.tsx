@@ -22,7 +22,7 @@ import {
 import { Github } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useUser } from "@/store/use-user"
-import { setAuthToken } from "@/lib/auth"
+import { setAuthTokens } from "@/lib/auth"
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -32,7 +32,7 @@ const loginSchema = z.object({
 
 const loginWithCodeSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
-  code: z.string().length(5, "Verification code must be 5 digits"),
+  code: z.string().length(6, "Verification code must be 6 digits"),
 })
 
 const resetPasswordSchema = z.object({
@@ -87,7 +87,7 @@ export default function LoginPage() {
       // If using verification code, send code to email and navigate to verify-email page
       setIsLoading(true)
       setError(null)
-      
+
       try {
         const response = await fetch("/api/auth/signup", {
           method: "POST",
@@ -144,9 +144,13 @@ export default function LoginPage() {
       const result = await response.json()
 
       if (result.success) {
-        // Store token with expiration
+        // Store tokens with expiration
         if (result.data.token) {
-          setAuthToken(result.data.token)
+          setAuthTokens(
+            result.data.token,
+            result.data.refresh_token || "",
+            result.data.expires_in || 3600
+          )
         }
         // Store user info
         if (result.data.user) {
