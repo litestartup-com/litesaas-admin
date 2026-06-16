@@ -52,7 +52,7 @@ export default function LoginPage() {
   const [useVerificationCode, setUseVerificationCode] = useState(false)
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false)
   const [resetPasswordSuccess, setResetPasswordSuccess] = useState(false)
-  const [oauthConfig, setOauthConfig] = useState<{ google?: { enabled: boolean }; github?: { enabled: boolean } }>({})
+  const [oauthConfig, setOauthConfig] = useState<{ google?: { enabled: boolean }; github?: { enabled: boolean } }>({ google: { enabled: true } })
 
   useEffect(() => {
     fetch("/api/auth/oauth-config")

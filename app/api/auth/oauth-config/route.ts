@@ -25,16 +25,19 @@ export async function GET() {
     })
 
     const json = await response.json()
+    console.log("[oauth-config] LS response:", response.status, JSON.stringify(json))
 
     if (response.ok && json.data) {
       return NextResponse.json({ success: true, data: json.data })
     }
 
+    console.warn("[oauth-config] LS returned non-ok or no data, status:", response.status)
     return NextResponse.json({
       success: true,
       data: { google: { enabled: false }, github: { enabled: false } },
     })
-  } catch {
+  } catch (err) {
+    console.error("[oauth-config] Error fetching from LS:", err)
     return NextResponse.json({
       success: true,
       data: { google: { enabled: false }, github: { enabled: false } },

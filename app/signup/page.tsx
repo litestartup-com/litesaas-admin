@@ -26,7 +26,7 @@ export default function SignupPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [oauthConfig, setOauthConfig] = useState<{ google?: { enabled: boolean }; github?: { enabled: boolean } }>({})
+  const [oauthConfig, setOauthConfig] = useState<{ google?: { enabled: boolean }; github?: { enabled: boolean } }>({ google: { enabled: true } })
 
   useEffect(() => {
     fetch("/api/auth/oauth-config")
