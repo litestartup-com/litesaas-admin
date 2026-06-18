@@ -2,12 +2,6 @@ import { NextResponse } from "next/server"
 
 const PROVIDERS = [
   {
-    id: "free",
-    name: "Free",
-    description: "Basic model, no credits consumed",
-    icon: "Zap",
-  },
-  {
     id: "fast",
     name: "Fast",
     description: "Quick responses, low cost",
