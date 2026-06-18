@@ -24,6 +24,56 @@ A modern, production-ready SaaS admin dashboard built with Next.js 14, TypeScrip
 - **Responsive Design** — Mobile-friendly with collapsible sidebar
 - **Dark Mode** — System preference detection, manual toggle, persistent theme via next-themes
 
+## Build with AI Coding Agents
+
+Use the **litestartup-admin** [Agent Skill](https://github.com/litestartup-com/litestartup-skills) to let AI coding agents scaffold and extend your SaaS app in minutes — no manual API wiring needed.
+
+### Install the Skill
+
+```bash
+npx skills add litestartup-com/litestartup-skills --skill litestartup-admin
+```
+
+This adds skill context files to your workspace. Any compatible coding agent will read and follow them automatically.
+
+### Supported Agents
+
+| Agent | How it works |
+|-------|-------------|
+| **OpenAI Codex** | Reads `AGENTS.md` |
+| **Claude Code** | Reads `CLAUDE.md` |
+| **Cursor** | Reads `.cursor/rules/litestartup.mdc` |
+| **Windsurf (Cascade)** | Reads `.windsurfrules` |
+
+### What Can the Agent Do?
+
+Describe what you need in natural language:
+
+- **"init saas"** → Clone boilerplate, install deps, configure API key, start dev server
+- **"add welcome email"** → Wire up transactional email via LS Email API
+- **"add file upload"** → Integrate LS Storage (S3-backed)
+- **"add AI chat"** → Connect to LS LLM Router (GPT-4o, Claude, Gemini)
+- **"add contact management"** → Hook into LS CRM/Contacts API
+
+### Why is a LiteStartup API Key Required?
+
+LiteStartup is a platform that provides ready-to-use services — **website hosting, blog, docs, changelog, email, user auth, file storage, AI, and more**. Combined with this free open-source SaaS admin boilerplate, it dramatically reduces the time and cost of building a SaaS product.
+
+**One API key connects your frontend to all of these platform services:**
+
+| Platform Service | What it saves you |
+|---|---|
+| User Auth (register/login/OAuth/verification code) | Building auth from scratch + session management |
+| Transactional & Marketing Email | SMTP infrastructure + deliverability management |
+| File Storage (S3-backed) | Object storage setup + signed URL logic |
+| AI Capabilities (LLM Router, TTS, image gen) | Integrating multiple AI providers individually |
+| Contact CRM & Newsletter | Database schema + CRUD endpoints |
+| Website / Blog / Docs / Changelog | Separate CMS deployment |
+
+**The Free plan gives you enough to validate your MVP** — start building today, scale when you're ready.
+
+> Get your free API key at [app.litestartup.com/settings/api-keys](https://app.litestartup.com/settings/api-keys) — enable the `auth` scope to start.
+
 ## Tech Stack
 
 | Category | Technologies |
