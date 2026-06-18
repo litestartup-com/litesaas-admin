@@ -7,7 +7,7 @@
 
 [中文文档](./README.zh-CN.md)
 
-**Live Demo →** [litestartup.com/products/litesaas-admin](https://www.litestartup.com/products/litesaas-admin)
+**Live Demo →** [litesaas-admin demo](https://litesaas.litestartup.com)
 
 > **What you see in the demo is exactly what you get.** Clone this repo, add one API key, and every feature in the demo works out of the box.
 

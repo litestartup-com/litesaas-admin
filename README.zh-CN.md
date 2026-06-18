@@ -7,7 +7,7 @@
 
 [English](./README.md)
 
-**在线演示 →** [litestartup.com/products/litesaas-admin](https://www.litestartup.com/products/litesaas-admin)
+**在线演示 →** [litesaas-admin demo](https://litesaas.litestartup.com)
 
 > **演示中看到的就是你将得到的。** 克隆本仓库，添加一个 API Key，演示中的所有功能即可开箱即用。
 
