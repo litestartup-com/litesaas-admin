@@ -5,11 +5,13 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38bdf8)](https://tailwindcss.com/)
 
+[中文文档](./README.zh-CN.md)
+
+**Live Demo →** [litestartup.com/products/litesaas-admin](https://www.litestartup.com/products/litesaas-admin)
+
+> **What you see in the demo is exactly what you get.** Clone this repo, add one API key, and every feature in the demo works out of the box.
+
 A modern, production-ready SaaS admin dashboard built with Next.js 14, TypeScript, Tailwind CSS, and Shadcn UI. Ships with a complete feature set — dashboard, user management, billing, AI chat, notifications, i18n, authentication, and dark mode — so you can focus on your product, not boilerplate.
-
-**Built and maintained by [Litestartup](https://www.litestartup.com)** — the all-in-one platform for startups.
-
-> **Looking for more?** Check out [Litestartup](https://www.litestartup.com) for email marketing, transactional APIs, live chat, AI agents, and growth tools designed for startups.
 
 ## Features
 
@@ -67,7 +69,6 @@ LiteStartup is a platform that provides ready-to-use services — **website host
 | Transactional & Marketing Email | SMTP infrastructure + deliverability management |
 | File Storage (S3-backed) | Object storage setup + signed URL logic |
 | AI Capabilities (LLM Router, TTS, image gen) | Integrating multiple AI providers individually |
-| Contact CRM & Newsletter | Database schema + CRUD endpoints |
 | Website / Blog / Docs / Changelog | Separate CMS deployment |
 
 **The Free plan gives you enough to validate your MVP** — start building today, scale when you're ready.
@@ -390,9 +391,12 @@ npx tsc --noEmit  # Type check
 
 ## About Litestartup
 
-**[Litestartup](https://www.litestartup.com)** is the all-in-one platform built for startups — email marketing, transactional email API, live chat & help desk, AI agents, and growth tools. Lite SaaS Admin is one of our open-source projects designed to help developers ship faster.
+**Built and maintained by [Litestartup](https://www.litestartup.com)** — the all-in-one platform for startups.
 
-Explore more from Litestartup:
+[Litestartup](https://www.litestartup.com) provides email marketing, transactional email API, live chat & help desk, AI agents, and growth tools — all designed for startups. Lite SaaS Admin is one of our open-source projects designed to help developers ship faster.
+
+Explore more:
+- [Product Introduction & Demo](https://www.litestartup.com/products/litesaas-admin) — Full feature overview & live demo
 - [Litestartup Platform](https://www.litestartup.com) — All-in-one startup toolkit
 - [Documentation](https://www.litestartup.com/docs) — Guides and API references
 - [Blog](https://www.litestartup.com/blog) — Engineering and product insights
